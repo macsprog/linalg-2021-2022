@@ -23,7 +23,7 @@ void Finalize_vect(Vect_t* v) {
 }
 
 int Get_size_vect(Vect_t* v) {
-    return 1;  // DUMB
+    return v->size;
 }
 
 // Set_size_vect();
