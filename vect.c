@@ -43,7 +43,30 @@ void Set_elem_vect(Vect_t* v, int i, double val) {
     v->data[i] = val;
 }
 
-// Read_from_stream_vect(){}
+#define LINESIZE 1024
+void Read_from_stream_vect(FILE* pF, Vect_t* v) {
+    int size = 0;
+    char buffer[LINESIZE] = "";
+    if (NULL == fgets(buffer, LINESIZE, pF)) {
+        printf("cannot use fgets!\n");
+        exit(EXIT_FAILURE);
+    }
+    if (1 != sscanf(buffer, "# %d", &size)) {
+        printf("wrong sscanf\n");
+        exit(EXIT_FAILURE);
+    }
+
+    Initialize_vect(v, size);
+    for (int i = 0; i < size; ++i) {
+        double val = 0.0;
+        if (NULL == fgets(buffer, LINESIZE, pF)) {
+            printf("cannot use fgets!\n");
+            exit(EXIT_FAILURE);
+        }
+        val = atof(buffer);
+        Set_elem_vect(v, i, val);
+    }
+}
 
 void Write_to_stream_vect(FILE* pF, Vect_t* v) {
     fprintf(pF, "# %d\n", Get_size_vect(v));

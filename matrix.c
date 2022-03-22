@@ -39,7 +39,33 @@ void Set_elem_matrix(Matrix_t *m, int i, int j, double val) {
     m->data[i * (m->nb_col) + j] = val;
 }
 
-// Read_from_stream_matrix(){}
+void Read_from_stream_matrix(FILE *pF, Matrix_t *m) {
+    int nb_li = 0;
+    int nb_col = 0;
+    if (2 != fscanf(pF, "# %d\n# %d\n", &nb_li, &nb_col)) {
+        printf("error with fscanf!!\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // if (1 != fscanf(pF, "# %d\n", &nb_col)) {
+    //     printf("error with fscanf!!\n");
+    //     exit(EXIT_FAILURE);
+    // }
+    printf("## %d %d\n", nb_col, nb_li);
+
+    Initialize_matrix(m, nb_li, nb_col);
+
+    for (int i = 0; i < nb_li; ++i) {
+        for (int j = 0; j < nb_col; ++j) {
+            double val = 0.0;
+            if (1 != fscanf(pF, "%lf\n", &val)) {
+                printf("error with fscanf!!\n");
+                exit(EXIT_FAILURE);
+            }
+            Set_elem_matrix(m, i, j, val);
+        }
+    }
+}
 
 void Write_to_stream_matrix(FILE *pF, Matrix_t *m) {
     fprintf(pF, "# %d\n", Get_nb_lines(m));
