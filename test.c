@@ -17,8 +17,8 @@ int main(void) {
     int i = 2;
     Set_elem_vect(&vect, i, val);
     double resval = Get_elem_vect(&vect, i);
-    printf("resval = %g\n",resval);
-    printf("res = %d\n",res);
+    printf("resval = %g\n", resval);
+    printf("res = %d\n", res);
 
     for (int i = 0; i < Get_size_vect(&vect); i++) {
         Set_elem_vect(&vect, i, i * 3.1);
@@ -49,8 +49,38 @@ int main(void) {
         }
     }
 
-    Finalize_matrix(&matrix);
 
+    {
+        FILE* pF = NULL;
+        char file_name_vect[] = "vect.txt";
+        pF = fopen(file_name_vect, "w");
+        if (NULL == pF) {
+            printf("cannot open file %s\n", file_name_vect);
+            exit(EXIT_FAILURE);
+        }
+
+        Write_to_stream_vect(pF, &vect);
+
+        fclose(pF);
+        pF = NULL;
+    }
+
+    {
+        FILE* pF = NULL;
+        char file_name_matrix[] = "matrix.txt";
+        pF = fopen(file_name_matrix, "w");
+        if (NULL == pF) {
+            printf("cannot open file %s\n", file_name_matrix);
+            exit(EXIT_FAILURE);
+        }
+
+        Write_to_stream_matrix(pF, &matrix);
+
+        fclose(pF);
+        pF = NULL;
+    }
+
+    Finalize_matrix(&matrix);
     Finalize_vect(&vect);
 
     return EXIT_SUCCESS;

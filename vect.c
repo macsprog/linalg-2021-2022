@@ -45,7 +45,12 @@ void Set_elem_vect(Vect_t* v, int i, double val) {
 
 // Read_from_stream_vect(){}
 
-// Write_to_stream_vect(){}
+void Write_to_stream_vect(FILE* pF, Vect_t* v) {
+    fprintf(pF, "# %d\n", Get_size_vect(v));
+    for (int i = 0; i < Get_size_vect(v); ++i) {
+        fprintf(pF, "%g\n", Get_elem_vect(v, i));
+    }
+}
 
 void Copy_vect(Vect_t* src, Vect_t* dest) {
     // DUMB
